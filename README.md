@@ -222,6 +222,4 @@ paste-share/
 
 ---
 
-## License
 
-Educational / evaluation use only.
