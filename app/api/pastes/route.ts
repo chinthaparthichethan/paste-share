@@ -4,6 +4,11 @@ import { nanoid } from 'nanoid';
 
 export async function POST(request: NextRequest) {
   try {
+    // Check if KV is configured
+    if (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN) {
+      return NextResponse.json({ error: 'Database not configured' }, { status: 500 });
+    }
+
     const body = await request.json();
     const { content, ttl_seconds, max_views } = body;
 

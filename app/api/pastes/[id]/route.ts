@@ -5,6 +5,11 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  // Check if KV is configured
+  if (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN) {
+    return NextResponse.json({ error: 'Database not configured' }, { status: 500 });
+  }
+
   const { id } = await params;
   const pasteData = await kv.get(`paste:${id}`);
 
