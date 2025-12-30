@@ -35,7 +35,10 @@ export async function POST(request: Request) {
 
     await kv.set(`paste:${id}`, JSON.stringify(pasteData));
 
-    const url = `${process.env['NEXT_PUBLIC_BASE_URL'] || 'http://localhost:3000'}/p/${id}`;
+    const protocol = request.headers.get('x-forwarded-proto') || 'https';
+    const host = request.headers.get('host');
+    const url = `${protocol}://${host}/p/${id}`;
+    
     return NextResponse.json({ id, url });
   } catch {
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
